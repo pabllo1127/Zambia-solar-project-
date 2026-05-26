@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Decentralised Generation — Feasibility Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,sans-serif;background:#f9f9f7;color:#1a1a18;padding:2rem}
+  h1{font-size:1.2rem;font-weight:500;margin-bottom:0.25rem}
+  .subtitle{font-size:0.85rem;color:#6b6b67;margin-bottom:1.5rem}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+  .tab{background:none;border:0.5px solid #ccc;border-radius:8px;padding:7px 14px;font-size:0.8rem;cursor:pointer;color:#6b6b67;font-family:inherit}
+  .tab.active{background:#f0f0ec;color:#1a1a18;font-weight:500;border-color:#999}
+  .panel{display:none}.panel.active{display:block}
+  .signal{display:flex;gap:12px;padding:12px 0;border-bottom:0.5px solid #eee}
+  .signal:last-child{border-bottom:none}
+  .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+  .g{background:#3B6D11}.a{background:#BA7517}.r{background:#A32D2D}
+  .sig-title{font-size:0.85rem;font-weight:500;margin-bottom:2px}
+  .sig-body{font-size:0.78rem;color:#6b6b67;line-height:1.6}
+  .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1.25rem}
+  .card{background:#fff;border:0.5px solid #ddd;border-radius:8px;padding:12px}
+  .card-val{font-size:1.15rem;font-weight:500}
+  .card-lbl{font-size:0.7rem;color:#6b6b67;margin-top:2px;line-height:1.4}
+  .chart-wrap{background:#fff;border:0.5px solid #ddd;border-radius:8px;padding:1rem;height:260px;position:relative}
+</style>
+</head>
+<body>
+<h1>Zambia Solar — Feasibility and Economic Impact</h1>
+<p class="subtitle">Evidence base for distributed solar development in Zambia (2024–2025 data)</p>
+
+<div class="tabs">
+  <button class="tab active" onclick="sw('sig',this)">Feasibility signals</button>
+  <button class="tab" onclick="sw('crisis',this)">Cost of the crisis</button>
+  <button class="tab" onclick="sw('impact',this)">Solar impact potential</button>
+</div>
+
+<div id="panel-sig" class="panel active">
+  <div class="signal"><div class="dot g"></div><div>
+    <div class="sig-title">Active market — 225 MW+ commissioned by April 2026</div>
+    <div class="sig-body">AfDB approved $14.54M for the 20 MW Garneton North plant (2025). 33 MWp Kitwe plant operational (2023). 100 MW Chisamba commissioned June 2025. This is not hypothetical.</div>
+  </div></div>
+  <div class="signal"><div class="dot g"></div><div>
+    <div class="sig-title">Proven PPA tariffs — GET FiT achieved 3.999 USc/kWh</div>
+    <div class="sig-body">First sub-4c/kWh bid in sub-Saharan Africa outside South Africa. Direct industrial PPAs (mining sector) target 7–9 USc/kWh — substantial developer margin.</div>
+  </div></div>
+  <div class="signal"><div class="dot g"></div><div>
+    <div class="sig-title">Government target: 10,000 MW by 2031</div>
+    <div class="sig-body">Presidential 1,000 MW Solar Initiative actively commissioning. April 2025: project approvals cut from 6 months to 48 hours.</div>
+  </div></div>
+  <div class="signal"><div class="dot g"></div><div>
+    <div class="sig-title">2024 Open Access Regulations — market fully liberalised</div>
+    <div class="sig-body">IPPs can sign direct PPAs with industrial customers and wheel power through ZESCO without ZESCO as buyer. Structural enabler that did not exist before 2024.</div>
+  </div></div>
+  <div class="signal"><div class="dot g"></div><div>
+    <div class="sig-title">DFI financing available — AfDB, IFC, Proparco, FMO active</div>
+    <div class="sig-body">Concessional capital at 5–9% vs 12–15% commercial rates. ZESCO JV equity de-risks projects for lenders dramatically.</div>
+  </div></div>
+  <div class="signal"><div class="dot a"></div><div>
+    <div class="sig-title">Currency risk — ZMW volatile historically</div>
+    <div class="sig-body">Kwacha appreciated 18.2% in 2025 and 12.9% through March 2026. USD-denominated PPAs (standard for mining sector) mitigate this risk.</div>
+  </div></div>
+  <div class="signal"><div class="dot a"></div><div>
+    <div class="sig-title">ZESCO interconnection — 6–18 month lead time</div>
+    <div class="sig-body">Improving under new regulations but still requires planning. ZESCO JV partnership dramatically accelerates this process.</div>
+  </div></div>
+  <div class="signal"><div class="dot r"></div><div>
+    <div class="sig-title">ZESCO direct off-taker credit risk</div>
+    <div class="sig-body">For projects selling to ZESCO: balance sheet and subsidy dependency create risk. Mitigated by direct industrial PPAs (mines paying USD tariffs) or ZESCO JV structure.</div>
+  </div></div>
+</div>
+
+<div id="panel-crisis" class="panel">
+  <div class="grid4">
+    <div class="card"><div class="card-val">$1.3B</div><div class="card-lbl">GDP cost of 2024 energy crisis (~5% of GDP)</div></div>
+    <div class="card"><div class="card-val">1.2%</div><div class="card-lbl">GDP growth 2024 — revised down from 2.3%</div></div>
+    <div class="card"><div class="card-val">21 hrs</div><div class="card-lbl">peak daily load-shedding for households</div></div>
+    <div class="card"><div class="card-val">40%</div><div class="card-lbl">power curtailment requested from mines</div></div>
+    <div class="card"><div class="card-val">20.6%</div><div class="card-lbl">agriculture contraction YoY 2024</div></div>
+    <div class="card"><div class="card-val">215 MW</div><div class="card-lbl">Kariba output (of 1,080 MW nameplate)</div></div>
+  </div>
+  <div class="chart-wrap"><canvas id="crisis-chart"></canvas></div>
+</div>
+
+<div id="panel-impact" class="panel">
+  <div class="grid4">
+    <div class="card"><div class="card-val">3.8%</div><div class="card-lbl">GDP recovered in 2025</div></div>
+    <div class="card"><div class="card-val">5.8%</div><div class="card-lbl">projected GDP growth 2026 (World Bank)</div></div>
+    <div class="card"><div class="card-val">10,000 MW</div><div class="card-lbl">Zambia generation target by 2031</div></div>
+    <div class="card"><div class="card-val">3.5Mt</div><div class="card-lbl">CO₂ reduction over 10 yrs — Zambia-Japan deal</div></div>
+  </div>
+  <div class="chart-wrap"><canvas id="impact-chart"></canvas></div>
+  <p style="font-size:0.75rem;color:#9b9b97;margin-top:8px">Estimated annual economic benefit per 100 MW of new solar. Sources: World Bank, IMF, Bloomberg, ZESCO.</p>
+</div>
+
+<script>
+function sw(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+new Chart(document.getElementById('crisis-chart'),{
+  type:'bar',
+  data:{
+    labels:['2021','2022','2023','2024','2025','2026 (proj.)'],
+    datasets:[{
+      label:'GDP growth %',
+      data:[4.6,3.0,4.2,4.0,3.8,5.8],
+      backgroundColor:['#1F4E79','#1F4E79','#1F4E79','#E24B4A','#2E75B6','#85B7EB'],
+      borderRadius:3,barPercentage:0.6
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' GDP growth: '+c.raw+'%'}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{size:12}}},
+      y:{beginAtZero:true,max:7,grid:{color:'rgba(0,0,0,0.06)'},ticks:{callback:v=>v+'%',font:{size:12}}}
+    }
+  }
+});
+
+new Chart(document.getElementById('impact-chart'),{
+  type:'bar',
+  indexAxis:'y',
+  data:{
+    labels:['mining productivity restored','SME and retail activity','direct + indirect jobs','agricultural processing','avoided energy import cost'],
+    datasets:[{
+      label:'Est. annual benefit ($M per 100 MW)',
+      data:[420,180,95,75,60],
+      backgroundColor:['#1F4E79','#2E75B6','#378ADD','#85B7EB','#B5D4F4'],
+      borderRadius:3,barPercentage:0.55
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' ~$'+c.raw+'M/yr per 100 MW'}}},
+    scales:{
+      x:{grid:{color:'rgba(0,0,0,0.06)'},ticks:{callback:v=>'$'+v+'M',font:{size:12}}},
+      y:{grid:{display:false},ticks:{font:{size:11}}}
+    }
+  }
+});
+</script>
+</body>
+</html>
